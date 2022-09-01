@@ -44,7 +44,10 @@ func (c ofwClient) Get(ctx context.Context, productId string) (*v1.ProductDetail
 
 	var responseEntity = &v1.ProductDetailResponse{}
 	defer resp.Body.Close()
-	json.NewDecoder(resp.Body).Decode(responseEntity)
+	err = json.NewDecoder(resp.Body).Decode(responseEntity)
+	if err != nil {
+		return nil, err
+	}
 
 	return responseEntity, nil
 }
