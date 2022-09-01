@@ -22,6 +22,6 @@ func (c *OFWV1Client) RESTClient() rest.OFWCRestClient {
 	return c.restClient
 }
 
-func NewForOpts() *OFWV1Client {
-	return &OFWV1Client{restClient: rest.NewOFWRestClient()}
+func NewForOpts(opts ...rest.OFWClientOption) *OFWV1Client {
+	return &OFWV1Client{restClient: rest.NewOFWRestClient(opts...)}
 }

@@ -20,14 +20,11 @@ type ofwClient struct {
 	baseURL    string
 	username   string
 	password   string
+	baseUrl    string
 }
 
-func NewOFWRestClient() OFWCRestClient {
+func NewOFWRestClient(opts ...OFWClientOption) OFWCRestClient {
 
-	const protocol = "https"
-	const subdomain = "de"
-	const tld = "org"
-	baseUrl := fmt.Sprintf("%s://%s.openfoodfacts.%s", protocol, subdomain, tld)
 	owc := &ofwClient{
 		httpClient: &http.Client{
 			Timeout: time.Second * 60,
@@ -38,9 +35,12 @@ func NewOFWRestClient() OFWCRestClient {
 				TLSHandshakeTimeout: time.Second * 15,
 			},
 		},
-		baseURL:  baseUrl,
 		username: "",
 		password: "",
+	}
+
+	for _, opt := range opts {
+		opt(owc)
 	}
 
 	return owc

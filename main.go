@@ -7,11 +7,13 @@ import (
 	"log"
 	"net/http"
 	v1 "stock/pkg/api/openfoodwatch/v1"
+	"stock/pkg/rest"
 )
 
 const (
-	listen = ""
-	port   = 8081
+	listen     = ""
+	port       = 8081
+	ofwBaseUrl = "https://de.openfoodfacts.org"
 )
 
 func main() {
@@ -23,7 +25,7 @@ func main() {
 func AddHandlers() {
 	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
 
-		ofwClient := v1.NewForOpts()
+		ofwClient := v1.NewForOpts(rest.WithBaseURL(ofwBaseUrl))
 		resp, err := ofwClient.Categories().Get(context.Background())
 
 		if err != nil {
