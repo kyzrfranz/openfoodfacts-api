@@ -1,0 +1,6 @@
+github.com/hashicorp/golang-lru v0.5.4 h1:YDjusn29QI/Das2iO9M0BHnIbxPeyuCHsjMW+lJfyTc=
+github.com/hashicorp/golang-lru v0.5.4/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
+github.com/openfoodfacts/openfoodfacts-go v1.0.0 h1:fBVpQ1Jl2WAWcZbUtH9ffaQovyaBdc5O3/EX/dlzq5g=
+github.com/openfoodfacts/openfoodfacts-go v1.0.0/go.mod h1:LxA3Y1wfVgR7QC9WgnlH69KjsmIqM5w6W5m8AwONnYQ=
+github.com/tidwall/tinylru v1.1.0 h1:XY6IUfzVTU9rpwdhKUF6nQdChgCdGjkMfLzbWyiau6I=
+github.com/tidwall/tinylru v1.1.0/go.mod h1:3+bX+TJ2baOLMWTnlyNWHh4QMnFyARg2TLTQ6OFbzw8=
