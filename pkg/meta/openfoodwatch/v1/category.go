@@ -6,9 +6,10 @@ type Category struct {
 	Name     string `json:"name"`
 	Products int    `json:"products"`
 	Url      string `json:"url"`
+	Links    []Link `json:"links"`
 }
 
-type CategoryResponse struct {
+type CategoriesResponse struct {
 	Count int        `json:"count"`
 	Tags  []Category `json:"tags"`
 }

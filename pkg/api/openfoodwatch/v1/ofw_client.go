@@ -5,6 +5,7 @@ import "stock/pkg/rest"
 type OFWV1Interface interface {
 	RESTClient() rest.OFWCRestClient
 	CategoriesGetter
+	ProductsGetter
 }
 
 type OFWV1Client struct {
@@ -13,6 +14,10 @@ type OFWV1Client struct {
 
 func (c *OFWV1Client) Categories() CategoriesInterface {
 	return newCategories(c.restClient)
+}
+
+func (c *OFWV1Client) Products() ProductsInterface {
+	return newProducts(c.restClient)
 }
 
 func (c *OFWV1Client) RESTClient() rest.OFWCRestClient {

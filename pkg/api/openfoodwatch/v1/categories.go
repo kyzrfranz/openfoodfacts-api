@@ -11,7 +11,7 @@ type CategoriesGetter interface {
 }
 
 type CategoriesInterface interface {
-	Get(ctx context.Context) (*v1.CategoryResponse, error)
+	List(ctx context.Context) (*v1.CategoriesResponse, error)
 }
 
 type categories struct {
@@ -24,7 +24,7 @@ func newCategories(client rest.OFWCRestClient) categories {
 	}
 }
 
-func (v categories) Get(ctx context.Context) (result *v1.CategoryResponse, err error) {
+func (v categories) List(ctx context.Context) (result *v1.CategoriesResponse, err error) {
 	result, err = v.client.GetCategories(ctx)
 	return
 }

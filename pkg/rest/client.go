@@ -3,16 +3,15 @@ package rest
 import (
 	"context"
 	"crypto/tls"
-	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 	v1 "stock/pkg/meta/openfoodwatch/v1"
 	"time"
 )
 
 type OFWCRestClient interface {
-	GetCategories(ctx context.Context) (*v1.CategoryResponse, error)
+	GetCategories(ctx context.Context) (*v1.CategoriesResponse, error)
+	GetProductsInCategory(ctx context.Context, categoryId string) (*v1.ProductsResponse, error)
+	Get(ctx context.Context, productId string) (*v1.ProductDetailResponse, error)
 }
 
 type ofwClient struct {
@@ -44,19 +43,4 @@ func NewOFWRestClient(opts ...OFWClientOption) OFWCRestClient {
 	}
 
 	return owc
-}
-
-func (c ofwClient) GetCategories(ctx context.Context) (*v1.CategoryResponse, error) {
-	requestUrl := fmt.Sprintf("%s/%s", c.baseURL, "categories.json")
-
-	log.Println(fmt.Sprintf("calling %s", requestUrl))
-	resp, err := c.httpClient.Get(requestUrl)
-	if err != nil {
-		return nil, err
-	}
-
-	var responseEntity = &v1.CategoryResponse{}
-	defer resp.Body.Close()
-	json.NewDecoder(resp.Body).Decode(responseEntity)
-	return responseEntity, nil
 }
