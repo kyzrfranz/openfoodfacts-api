@@ -2,7 +2,6 @@ package rest
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	v1 "stock/pkg/meta/openfoodwatch/v1"
@@ -17,9 +16,7 @@ func (c ofwClient) GetProductsInCategory(ctx context.Context, categoryId string)
 		return nil, err
 	}
 
-	var responseEntity = &v1.ProductsResponse{}
-	defer resp.Body.Close()
-	json.NewDecoder(resp.Body).Decode(responseEntity)
+	responseEntity, err := JSON[v1.ProductsResponse](resp, &v1.ProductsResponse{})
 
 	var restResponse = &v1.ProductsResponse{Count: responseEntity.Count}
 	for _, k := range responseEntity.Products {
@@ -42,12 +39,5 @@ func (c ofwClient) Get(ctx context.Context, productId string) (*v1.ProductDetail
 		return nil, err
 	}
 
-	var responseEntity = &v1.ProductDetailResponse{}
-	defer resp.Body.Close()
-	err = json.NewDecoder(resp.Body).Decode(responseEntity)
-	if err != nil {
-		return nil, err
-	}
-
-	return responseEntity, nil
+	return JSON[v1.ProductDetailResponse](resp, &v1.ProductDetailResponse{})
 }

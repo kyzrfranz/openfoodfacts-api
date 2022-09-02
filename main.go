@@ -4,11 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jellydator/ttlcache/v2"
 	"log"
 	"net/http"
 	v1 "stock/pkg/api/openfoodwatch/v1"
 	"stock/pkg/rest"
 	"strings"
+	"time"
 )
 
 const (
@@ -17,15 +19,17 @@ const (
 	ofwBaseUrl = "https://de.openfoodfacts.org"
 )
 
+var cache ttlcache.SimpleCache = ttlcache.NewCache()
+
 func main() {
+	cache.SetTTL(336 * time.Hour)
 
 	AddHandlers()
 	StartServer(port, listen)
 }
 
-// https://de.openfoodfacts.org/api/v2/product/8076800105988
 func AddHandlers() {
-	ofwClient := v1.NewForOpts(rest.WithBaseURL(ofwBaseUrl))
+	ofwClient := v1.NewForOpts(rest.WithBaseURL(ofwBaseUrl), rest.WithCache(cache))
 
 	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := ofwClient.Categories().List(context.Background())

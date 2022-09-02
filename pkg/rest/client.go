@@ -3,6 +3,8 @@ package rest
 import (
 	"context"
 	"crypto/tls"
+	"encoding/json"
+	"github.com/jellydator/ttlcache/v2"
 	"net/http"
 	v1 "stock/pkg/meta/openfoodwatch/v1"
 	"time"
@@ -20,6 +22,7 @@ type ofwClient struct {
 	username   string
 	password   string
 	baseUrl    string
+	cache      ttlcache.SimpleCache
 }
 
 func NewOFWRestClient(opts ...OFWClientOption) OFWCRestClient {
@@ -43,4 +46,13 @@ func NewOFWRestClient(opts ...OFWClientOption) OFWCRestClient {
 	}
 
 	return owc
+}
+
+func JSON[R any](resp *http.Response, responseEntity *R) (*R, error) {
+	defer resp.Body.Close()
+	err := json.NewDecoder(resp.Body).Decode(responseEntity)
+	if err != nil {
+		return nil, err
+	}
+	return responseEntity, nil
 }
