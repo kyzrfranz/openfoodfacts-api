@@ -26,6 +26,7 @@ func (c ofwClient) GetCategories(ctx context.Context) (*v1.CategoriesResponse, e
 	responseEntity, err := JSON[v1.CategoriesResponse](resp, &v1.CategoriesResponse{})
 
 	var restResponse = &v1.CategoriesResponse{Count: responseEntity.Count}
+	//TODO this needs to go
 	for _, k := range responseEntity.Tags {
 		k.Links = []v1.Link{{
 			Rel:  "self",

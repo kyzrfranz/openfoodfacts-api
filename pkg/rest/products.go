@@ -19,12 +19,16 @@ func (c ofwClient) GetProductsInCategory(ctx context.Context, categoryId string)
 	responseEntity, err := JSON[v1.ProductsResponse](resp, &v1.ProductsResponse{})
 
 	var restResponse = &v1.ProductsResponse{Count: responseEntity.Count}
+	//TODO this needs to go..
 	for _, k := range responseEntity.Products {
-		k.Links = []v1.Link{v1.Link{
+		k.Links = []v1.Link{{
 			Rel:  "self",
 			Href: fmt.Sprintf("/products/%s", k.Id),
 		}}
 		restResponse.Products = append(restResponse.Products, k)
+		restResponse.Page = responseEntity.Page
+		restResponse.PageCount = responseEntity.PageCount
+		restResponse.PageSize = responseEntity.PageSize
 	}
 
 	return restResponse, nil

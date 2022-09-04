@@ -33,30 +33,22 @@ func AddHandlers() {
 
 	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
 		resp, err := ofwClient.Categories().List(context.Background())
-
-		if err != nil {
-			log.Fatalln(err)
-		}
+		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})
 
 	http.HandleFunc("/category/", func(w http.ResponseWriter, r *http.Request) {
 		id := strings.TrimPrefix(r.URL.Path, "/category/")
+		//page := r.URL.Query().Get("page")
 		resp, err := ofwClient.Products().GetForCategory(context.Background(), id)
-
-		if err != nil {
-			log.Fatalln(err)
-		}
+		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})
 
 	http.HandleFunc("/products/", func(w http.ResponseWriter, r *http.Request) {
 		id := strings.TrimPrefix(r.URL.Path, "/products/")
 		resp, err := ofwClient.Products().Get(context.Background(), id)
-
-		if err != nil {
-			log.Fatalln(err)
-		}
+		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})
 }
@@ -78,4 +70,11 @@ func WriteJson(w http.ResponseWriter, response interface{}) {
 	data, _ := json.Marshal(response)
 	w.Header().Add("Content-Type", "application/json")
 	fmt.Fprint(w, string(data))
+}
+
+func HandleError(w http.ResponseWriter, err error) {
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+	}
 }
