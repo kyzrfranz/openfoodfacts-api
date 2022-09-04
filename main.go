@@ -16,7 +16,7 @@ import (
 const (
 	listen     = ""
 	port       = 8081
-	ofwBaseUrl = "https://de.openfoodfacts.org"
+	offBaseUrl = "https://de.openfoodfacts.org"
 )
 
 var cache ttlcache.SimpleCache = ttlcache.NewCache()
@@ -29,10 +29,10 @@ func main() {
 }
 
 func AddHandlers() {
-	ofwClient := v1.NewForOpts(rest.WithBaseURL(ofwBaseUrl), rest.WithCache(cache))
+	offClient := v1.NewForOpts(rest.WithBaseURL(offBaseUrl), rest.WithCache(cache))
 
 	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
-		resp, err := ofwClient.Categories().List(context.Background())
+		resp, err := offClient.Categories().List(context.Background())
 		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})
@@ -40,14 +40,14 @@ func AddHandlers() {
 	http.HandleFunc("/category/", func(w http.ResponseWriter, r *http.Request) {
 		id := strings.TrimPrefix(r.URL.Path, "/category/")
 		//page := r.URL.Query().Get("page")
-		resp, err := ofwClient.Products().GetForCategory(context.Background(), id)
+		resp, err := offClient.Products().GetForCategory(context.Background(), id)
 		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})
 
 	http.HandleFunc("/products/", func(w http.ResponseWriter, r *http.Request) {
 		id := strings.TrimPrefix(r.URL.Path, "/products/")
-		resp, err := ofwClient.Products().Get(context.Background(), id)
+		resp, err := offClient.Products().Get(context.Background(), id)
 		HandleError(w, err)
 		WriteJsonSuccess(w, resp)
 	})

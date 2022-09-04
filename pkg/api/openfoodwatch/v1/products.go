@@ -16,10 +16,10 @@ type ProductsInterface interface {
 }
 
 type Products struct {
-	client rest.OFWCRestClient
+	client rest.OFFCRestClient
 }
 
-func newProducts(client rest.OFWCRestClient) Products {
+func newProducts(client rest.OFFCRestClient) Products {
 	return Products{
 		client: client,
 	}

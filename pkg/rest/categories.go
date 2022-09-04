@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (c ofwClient) GetCategories(ctx context.Context) (*v1.CategoriesResponse, error) {
+func (c offClient) GetCategories(ctx context.Context) (*v1.CategoriesResponse, error) {
 	requestUrl := fmt.Sprintf("%s/%s", c.baseURL, "categories.json")
 
 	val, err := c.cache.Get("categories")

@@ -15,10 +15,10 @@ type CategoriesInterface interface {
 }
 
 type categories struct {
-	client rest.OFWCRestClient
+	client rest.OFFCRestClient
 }
 
-func newCategories(client rest.OFWCRestClient) categories {
+func newCategories(client rest.OFFCRestClient) categories {
 	return categories{
 		client: client,
 	}

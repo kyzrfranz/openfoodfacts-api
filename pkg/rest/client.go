@@ -10,13 +10,13 @@ import (
 	"time"
 )
 
-type OFWCRestClient interface {
+type OFFCRestClient interface {
 	GetCategories(ctx context.Context) (*v1.CategoriesResponse, error)
 	GetProductsInCategory(ctx context.Context, categoryId string) (*v1.ProductsResponse, error)
 	Get(ctx context.Context, productId string) (*v1.ProductDetailResponse, error)
 }
 
-type ofwClient struct {
+type offClient struct {
 	httpClient *http.Client
 	baseURL    string
 	username   string
@@ -25,9 +25,9 @@ type ofwClient struct {
 	cache      ttlcache.SimpleCache
 }
 
-func NewOFWRestClient(opts ...OFWClientOption) OFWCRestClient {
+func NewOFFRestClient(opts ...OFFClientOption) OFFCRestClient {
 
-	owc := &ofwClient{
+	owc := &offClient{
 		httpClient: &http.Client{
 			Timeout: time.Second * 60,
 			Transport: &http.Transport{
