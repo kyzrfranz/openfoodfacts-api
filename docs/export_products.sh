@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MONGO_HOST=dev1.local
+MONGO_HOST=localhost
 MONGO_PORT=27017
 LANG="de"
 COUNTRY="Deutschland"
