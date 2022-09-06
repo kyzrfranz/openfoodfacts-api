@@ -20,16 +20,19 @@ const (
 	ttl        = 336 * time.Hour
 )
 
-var cache ttlcache.SimpleCache = ttlcache.NewCache()
-
 func main() {
-	cache.SetTTL(ttl)
+	var cache ttlcache.SimpleCache = ttlcache.NewCache()
 
-	AddHandlers()
+	err := cache.SetTTL(ttl)
+	if err != nil {
+		log.Fatalf("Could not set cache TTL to %d hours because %v", ttl/time.Hour, err)
+	}
+
+	AddHandlers(cache)
 	StartServer(port, listen)
 }
 
-func AddHandlers() {
+func AddHandlers(cache ttlcache.SimpleCache) {
 	offClient := v1.NewForOpts(rest.WithBaseURL(offBaseUrl), rest.WithCache(cache))
 
 	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
