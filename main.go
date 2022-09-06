@@ -17,12 +17,13 @@ const (
 	listen     = ""
 	port       = 8081
 	offBaseUrl = "https://de.openfoodfacts.org"
+	ttl        = 336 * time.Hour
 )
 
 var cache ttlcache.SimpleCache = ttlcache.NewCache()
 
 func main() {
-	cache.SetTTL(336 * time.Hour)
+	cache.SetTTL(ttl)
 
 	AddHandlers()
 	StartServer(port, listen)
